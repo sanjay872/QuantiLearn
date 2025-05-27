@@ -4,8 +4,8 @@
                              http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.medsync</groupId>  <!-- Organisation Name -->
-    <artifactId>medsync-plus</artifactId> <!-- Root project Name -->
+    <groupId>com.quantiLearn</groupId>  <!-- Organisation Name -->
+    <artifactId>quantiLearn</artifactId> <!-- Root project Name -->
     <version>1.0-SNAPSHOT</version> <!-- Project version -->
     <packaging>pom</packaging> <!-- Telling maven that this is the parent project -->
 

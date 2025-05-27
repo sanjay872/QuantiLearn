@@ -1,2 +1,2 @@
-# medsync-plus
-AI-enhanced healthcare microservices platform built with Spring Boot, Kafka, Redis, and AWS
+# QuantiLearn
+An e-learning portal that adapts difficulty and study plans using AI.

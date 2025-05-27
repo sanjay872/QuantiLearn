@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthorityDto {
-    private Long id;
-    private String name;
+public class AuthResponseDto {
+    private String userId;
+    private String token;
 }

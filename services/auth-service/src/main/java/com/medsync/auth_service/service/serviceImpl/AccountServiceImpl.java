@@ -1,38 +1,72 @@
 package com.medsync.auth_service.service.serviceImpl;
 
 import com.medsync.auth_service.entity.Account;
+import com.medsync.auth_service.entity.Role;
 import com.medsync.auth_service.exception.exceptions.CustomException;
 import com.medsync.auth_service.exception.exceptions.CustomNotFoundException;
 import com.medsync.auth_service.repository.AccountRepository;
 import com.medsync.auth_service.service.AccountService;
+import com.medsync.auth_service.utils.Utils;
+import jakarta.transaction.Transactional;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class AccountServiceImpl implements AccountService {
 
     private final AccountRepository accountRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final Utils utils;
+    private final AuthenticationManager authenticationManager;
+    private final RoleServiceImpl roleService;
 
     public AccountServiceImpl(
                             AccountRepository accountRepository,
-                            BCryptPasswordEncoder bCryptPasswordEncoder)
+                            BCryptPasswordEncoder bCryptPasswordEncoder,
+                            Utils utils,
+                            AuthenticationManager authenticationManager,
+                            RoleServiceImpl roleService
+    )
     {
         this.accountRepository=accountRepository;
         this.bCryptPasswordEncoder=bCryptPasswordEncoder;
+        this.utils=utils;
+        this.authenticationManager=authenticationManager;
+        this.roleService=roleService;
     }
 
     @Override
-    public Long createAccount(Account account) {
-        return accountRepository.save(account).getId();
+    public Account createAccount(Account account){
+        if(accountRepository.findByEmail(account.getEmail()).isPresent()){
+            throw new CustomException("Already exist");
+        }
+        else{
+            Account newAccount= new Account();
+            newAccount.setEmail(account.getEmail());
+            newAccount.setPassword(bCryptPasswordEncoder.encode(account.getPassword()));
+            newAccount.setUserId(utils.generateId(8));
+            newAccount.setRoles(getRoles(List.of("ROLE_USER")));
+            return accountRepository.save(newAccount);
+        }
     }
 
     @Override
-    public Account getAccount(long id) {
-        Optional<Account> accountOptional=accountRepository.findById(id);
+    public Account loginAccount(String email, String password) {
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        email,password
+                )
+        );
+        return accountRepository.findByEmail(email).get();
+    }
+
+    @Override
+    public Account getAccount(String userId) {
+        Optional<Account> accountOptional=accountRepository.findByUserId(userId);
         if(accountOptional.isPresent()){
             return accountOptional.get();
         }
@@ -80,4 +114,37 @@ public class AccountServiceImpl implements AccountService {
             throw new CustomException("Account deletion failed!");
         }
     }
+
+    @Override
+    @Transactional
+    public void createAdmin(Account adminAccount) {
+        if(accountRepository.findByEmail(adminAccount.getEmail()).isPresent()){
+            throw new CustomException("Admin Already exist");
+        }
+        else{
+            Account newAccount= new Account();
+            newAccount.setEmail(adminAccount.getEmail());
+            newAccount.setPassword(bCryptPasswordEncoder.encode(adminAccount.getPassword()));
+            newAccount.setUserId(utils.generateId(8));
+            newAccount.setRoles(getRoles(List.of("ROLE_ADMIN")));
+            accountRepository.save(newAccount);
+        }
+    }
+
+    @Override
+    @Transactional
+    public void addRoleToUser(String userId, String roleName) {
+        Account existingAccount=getAccount(userId);
+        existingAccount.addNewRole(roleService.getRoleByName(roleName));
+        accountRepository.save(existingAccount);
+    }
+
+    private Set<Role> getRoles(List<String> roles){
+        Set<Role> existingRoles=new HashSet<>();
+        roles.forEach(role->{
+            existingRoles.add(roleService.getRoleByName(role));
+        });
+        return existingRoles;
+    }
+
 }

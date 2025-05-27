@@ -1,16 +1,15 @@
 package com.medsync.auth_service.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Role {
@@ -21,9 +20,6 @@ public class Role {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
-    private String code;
-
     @ManyToMany(cascade = {
             CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH
     },fetch = FetchType.EAGER
@@ -33,5 +29,5 @@ public class Role {
             joinColumns = @JoinColumn(name = "role_id"),
             inverseJoinColumns = @JoinColumn(name = "authority_id")
     )
-    private List<Authority> authorities;
+    private Set<Authority> authorities;
 }

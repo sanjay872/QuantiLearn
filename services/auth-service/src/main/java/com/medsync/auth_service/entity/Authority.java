@@ -1,15 +1,13 @@
 package com.medsync.auth_service.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 
 @Entity
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Authority implements GrantedAuthority {
@@ -20,13 +18,9 @@ public class Authority implements GrantedAuthority {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
-    private String code;
-
     @Override
     public String getAuthority() {
-        return this.code;
+        return this.name;
     }
-
 
 }

@@ -1,8 +1,13 @@
 package com.medsync.auth_service.dtoService.dtoServiceImpl;
 
 import com.medsync.auth_service.dto.AccountDto;
+import com.medsync.auth_service.dto.AuthResponseDto;
+import com.medsync.auth_service.dto.LoginDto;
+import com.medsync.auth_service.dto.RegisterDto;
 import com.medsync.auth_service.dtoService.AccountDtoService;
+import com.medsync.auth_service.entity.Account;
 import com.medsync.auth_service.mapper.AccountMapper;
+import com.medsync.auth_service.security.JwtService;
 import com.medsync.auth_service.service.AccountService;
 import org.springframework.stereotype.Service;
 
@@ -13,22 +18,35 @@ public class AccountDtoServiceImpl implements AccountDtoService {
 
     private final AccountMapper accountMapper;
     private final AccountService accountService;
+    private final JwtService jwtService;
 
     public AccountDtoServiceImpl(
             AccountMapper accountMapper,
-            AccountService accountService){
+            AccountService accountService,
+            JwtService jwtService
+    ){
         this.accountMapper=accountMapper;
         this.accountService=accountService;
+        this.jwtService=jwtService;
     }
 
     @Override
-    public Long createAccount(AccountDto accountDto) {
-        return accountService.createAccount(accountMapper.fromDto(accountDto));
+    public AuthResponseDto createAccount(RegisterDto registerDto) {
+        Account account=accountService.createAccount(Account.builder().email(registerDto.getEmail()).password(registerDto.getPassword()).build());
+        String token=jwtService.generateToken(account);
+        return new AuthResponseDto(account.getUserId(),token);
     }
 
     @Override
-    public AccountDto getAccount(long id) {
-        return accountMapper.toDto(accountService.getAccount(id));
+    public AuthResponseDto loginAccount(LoginDto loginDto) {
+        Account account=accountService.loginAccount(loginDto.getEmail(), loginDto.getPassword());
+        String token=jwtService.generateToken(account);
+        return new AuthResponseDto(account.getUserId(),token);
+    }
+
+    @Override
+    public AccountDto getAccount(String userId) {
+        return accountMapper.toDto(accountService.getAccount(userId));
     }
 
     @Override
@@ -49,5 +67,10 @@ public class AccountDtoServiceImpl implements AccountDtoService {
     @Override
     public void deleteAccount(long id) {
         accountService.deleteAccount(id);
+    }
+
+    @Override
+    public void addRoleToUser(String userId, String roleName) {
+        accountService.addRoleToUser(userId,roleName);
     }
 }

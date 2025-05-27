@@ -1,7 +1,6 @@
-package com.medsync.auth_service.security;
+package com.medsync.auth_service.config;
 
 import com.medsync.auth_service.repository.AccountRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,18 +21,18 @@ public class ApplicationConfig {
     }
 
     @Bean
-    UserDetailsService userDetailsService(){ // to get user
+    public UserDetailsService userDetailsService(){ // to get user
         return username -> accountRepository.findByEmail(username).orElseThrow(
                 ()-> new UsernameNotFoundException("User not found"));
     }
 
     @Bean
-    BCryptPasswordEncoder passwordEncoder(){ // to get password encoder
+    public BCryptPasswordEncoder passwordEncoder(){ // to get password encoder
         return new BCryptPasswordEncoder();
     }
 
     @Bean
-    AuthenticationProvider authenticationProvider() { // adding new strategy to perform authentication
+    public AuthenticationProvider authenticationProvider() { // adding new strategy to perform authentication
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(userDetailsService());
         authProvider.setPasswordEncoder(passwordEncoder());

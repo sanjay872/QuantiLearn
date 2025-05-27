@@ -19,8 +19,12 @@ public class AuthorityServiceImpl implements AuthorityService {
     }
 
     @Override
-    public Long createAuthority(Authority authority) {
-        return authorityRepository.save(authority).getId();
+    public Authority createAuthority(Authority authority) {
+        Optional<Authority> authorityOptional= authorityRepository.findByName(authority.getName());
+        if(authorityOptional.isPresent()){
+            throw new CustomException("Authority already existing");
+        }
+        return authorityRepository.save(authority);
     }
 
     @Override
@@ -48,5 +52,23 @@ public class AuthorityServiceImpl implements AuthorityService {
         else{
             throw new CustomException("Authority deletion failed!");
         }
+    }
+
+    @Override
+    public Authority getAuthorityByName(String authority) {
+        Optional<Authority> authorityOptional=authorityRepository.findByName(authority);
+        if(authorityOptional.isPresent()){
+            return authorityOptional.get();
+        }
+        throw new CustomException("Authority not found");
+    }
+
+    @Override
+    public Authority getAuthorityById(Long id) {
+        Optional<Authority> authorityOptional=authorityRepository.findById(id);
+        if(authorityOptional.isPresent()){
+            return authorityOptional.get();
+        }
+        throw new CustomException("Authority not found!");
     }
 }

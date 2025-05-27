@@ -1,10 +1,7 @@
 package com.medsync.auth_service.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.security.core.GrantedAuthority;
@@ -13,18 +10,21 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Account implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO) // AUTO means JPA will decide the best strategy
     private Long id;
+
+    @Column(nullable = false)
+    private String userId;
 
     @Column(nullable = false)
     private String email;
@@ -50,16 +50,20 @@ public class Account implements UserDetails {
             joinColumns = @JoinColumn(name = "user_id"), // current table
             inverseJoinColumns = @JoinColumn(name = "role_id") // other table
     )
-    private List<Role> roles;
+    private Set<Role> roles;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<Role> roles=this.roles;
+        Set<Role> roles=this.roles;
         Set<Authority> authorities=new HashSet<>();
         roles.forEach((role)->{
             authorities.addAll(role.getAuthorities());
         });
         return authorities;
+    }
+
+    public void addNewRole(Role role){
+        this.roles.add(role);
     }
 
     @Override

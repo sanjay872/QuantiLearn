@@ -19,9 +19,15 @@ public class AccountController {
         this.accountDtoService=accountDtoService;
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<AccountDto> getAccount(@PathVariable("id") long id){
-        return new ResponseEntity<>(accountDtoService.getAccount(id), HttpStatus.OK);
+    @GetMapping("/{userId}")
+    public ResponseEntity<AccountDto> getAccount(@PathVariable("userId") String userId){
+        return new ResponseEntity<>(accountDtoService.getAccount(userId), HttpStatus.OK);
+    }
+
+    @PostMapping("/newRole")
+    public ResponseEntity addNewRole(@RequestParam String userId, @RequestParam String roleName){
+        accountDtoService.addRoleToUser(userId,roleName);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @GetMapping("/all")

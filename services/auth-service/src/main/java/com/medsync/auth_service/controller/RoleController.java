@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("api/v1/role")
@@ -26,6 +27,17 @@ public class RoleController {
     @GetMapping("/all")
     public ResponseEntity<List<RoleDto>> getAllRole(){
         return new ResponseEntity<>(roleDtoService.getAllRole(),HttpStatus.OK);
+    }
+
+    @GetMapping("/{name}")
+    public ResponseEntity<RoleDto> getRoleByName(@PathVariable String name){
+        return new ResponseEntity<>(roleDtoService.getRoleByName(name),HttpStatus.OK);
+    }
+
+    @GetMapping("/addAuthorities")
+    public ResponseEntity addAuthoritiesToRole(@RequestParam String role, @RequestParam Set<String> authorities){
+        roleDtoService.addAuthorityToRole(role,authorities);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @PutMapping

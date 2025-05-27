@@ -7,6 +7,7 @@ import com.medsync.auth_service.service.RoleService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class RoleDtoServiceImpl implements RoleDtoService {
@@ -38,7 +39,17 @@ public class RoleDtoServiceImpl implements RoleDtoService {
     }
 
     @Override
+    public void addAuthorityToRole(String role, Set<String> authorities) {
+        roleService.addAuthoritiesToRole(role,authorities);
+    }
+
+    @Override
     public void deleteRole(long id) {
         roleService.deleteRole(id);
+    }
+
+    @Override
+    public RoleDto getRoleByName(String name) {
+        return roleMapper.toDto(roleService.getRoleByName(name));
     }
 }

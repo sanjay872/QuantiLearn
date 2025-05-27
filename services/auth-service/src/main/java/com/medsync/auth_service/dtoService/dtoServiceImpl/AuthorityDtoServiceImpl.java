@@ -23,7 +23,7 @@ public class AuthorityDtoServiceImpl implements AuthorityDtoService {
 
     @Override
     public Long createAuthority(AuthorityDto authorityDto) {
-        return authorityService.createAuthority(authorityMapper.fromDto(authorityDto));
+        return authorityService.createAuthority(authorityMapper.fromDto(authorityDto)).getId();
     }
 
     @Override

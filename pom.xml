@@ -11,9 +11,6 @@
 
     <modules> <!-- Child Projects -->
         <module>services/auth-service</module>
-        <module>services/patient-service</module>
-        <module>services/appointment-service</module>
-        <module>services/doctor-service</module>
         <!-- <module>common/lib-utils</module> -->
     </modules>
 

@@ -19,7 +19,7 @@ spring:
     hikari:
       connectionTimeout: 20000 #default connection pool
       maximumPoolSize: 5
-    url: jdbc:postgresql://localhost:5432/medsync #PostgreSQL
+    url: jdbc:postgresql://localhost:5432/quantilearn #PostgreSQL
     username: dev
     password: root
   jpa:

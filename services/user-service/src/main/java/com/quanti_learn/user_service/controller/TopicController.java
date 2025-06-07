@@ -3,6 +3,9 @@ package com.quanti_learn.user_service.controller;
 
 import com.quanti_learn.user_service.dto.TopicDto;
 import com.quanti_learn.user_service.dtoService.TopicDtoService;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -37,9 +40,8 @@ public class TopicController {
     }
 
     @PutMapping
-    public ResponseEntity updateTopic(@RequestBody TopicDto topicDto){
-        service.updateTopic(topicDto);
-        return new ResponseEntity(HttpStatus.OK);
+    public ResponseEntity<TopicDto> updateTopic(@RequestBody TopicDto topicDto){
+        return new ResponseEntity<>(service.updateTopic(topicDto),HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

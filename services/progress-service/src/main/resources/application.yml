@@ -1,0 +1,27 @@
+server:
+  port: 8092
+  servlet:
+    context-path: /progress-service
+openapi:
+  service:
+    title: progress Service #title that you will want to display in the swagger ui
+    version: 1.0.0
+    url: http://localhost:8092/progress-service #api gateway url
+springdoc:
+  api-docs:
+    path: /v3/api-docs #these urls will used to load the swagger ui of this service by the api gateway
+  swagger-ui:
+    path: /swagger-ui.html
+spring:
+  application:
+    name: progress-service
+  datasource:
+    hikari:
+      connectionTimeout: 20000 #default connection pool
+      maximumPoolSize: 5
+    url: jdbc:postgresql://localhost:5432/quantilearn #PostgreSQL
+    username: dev
+    password: root
+  jpa:
+    hibernate:
+      ddl-auto: update

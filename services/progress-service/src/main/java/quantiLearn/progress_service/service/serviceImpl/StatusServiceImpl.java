@@ -23,6 +23,7 @@ public class StatusServiceImpl implements StatusService {
 
     @Override
     public Status createStatus(Status status) {
+        status.setId(null);
         return repository.save(status);
     }
 

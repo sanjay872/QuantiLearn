@@ -37,5 +37,6 @@ public class UserProgression {
             }, // no cascade delete
             fetch = FetchType.EAGER // for each user, roles also will be fetched
     )
+    @JoinColumn(name="status_id", nullable=false)
     private Status status;
 }

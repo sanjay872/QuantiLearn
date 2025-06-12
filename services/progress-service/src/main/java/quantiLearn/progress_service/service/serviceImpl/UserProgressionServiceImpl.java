@@ -1,9 +1,12 @@
 package quantiLearn.progress_service.service.serviceImpl;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import quantiLearn.progress_service.entity.Status;
 import quantiLearn.progress_service.entity.UserProgression;
 import quantiLearn.progress_service.exception.exceptions.CustomException;
 import quantiLearn.progress_service.exception.exceptions.CustomNotFoundException;
+import quantiLearn.progress_service.repository.StatusRepository;
 import quantiLearn.progress_service.repository.UserProgressionRepository;
 import quantiLearn.progress_service.service.UserProgressionService;
 
@@ -14,15 +17,25 @@ import java.util.Optional;
 public class UserProgressionServiceImpl implements UserProgressionService {
 
     private final UserProgressionRepository repository;
+    private final StatusRepository statusRepository;
 
     public UserProgressionServiceImpl(
-            UserProgressionRepository repository
+            UserProgressionRepository repository,
+            StatusRepository statusRepository
     ){
         this.repository=repository;
+        this.statusRepository=statusRepository;
     }
 
     @Override
+    @Transactional
     public UserProgression createUserProgression(UserProgression userProgression) {
+        userProgression.setId(null);
+        Long statusId = userProgression.getStatus().getId();
+        Status managedStatus = statusRepository.findById(statusId)
+                .orElseThrow(() -> new RuntimeException("Invalid status ID: " + statusId));
+
+        userProgression.setStatus(managedStatus); // Use managed entity
        return repository.save(userProgression);
     }
 
@@ -41,6 +54,7 @@ public class UserProgressionServiceImpl implements UserProgressionService {
     }
 
     @Override
+    @Transactional
     public UserProgression updateUserProgression(UserProgression userProgression) {
         Optional<UserProgression> optionalUserProgression=repository.findById(userProgression.getId());
         if(optionalUserProgression.isPresent()){

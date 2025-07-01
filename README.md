@@ -22,9 +22,8 @@
 - AI Integration: Generates personalized lesson plans based on user progress, performance history, and learning preferences.
 - Can utilize models via Spring AI or integrate external LLM APIs (e.g., OpenAI, Claude, or Hugging Face).
 
-### 🔔 notification-service *(planned)*
+### 🔔 notification-service
 - Sends reminders and alerts via email or push notifications.
-- Scheduled notifications and event-based triggers (e.g., new lesson available).
 
 ## 🌐 System Architecture
 

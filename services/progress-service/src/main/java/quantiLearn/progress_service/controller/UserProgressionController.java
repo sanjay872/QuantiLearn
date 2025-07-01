@@ -42,14 +42,14 @@ public class UserProgressionController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteUserProgressionById(@PathVariable Long id){
+    public ResponseEntity<?> deleteUserProgressionById(@PathVariable Long id){
         service.deleteUserProgressionById(id);
-        return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping("/user/{id}")
-    public ResponseEntity deleteUserProgressionByUserId(@PathVariable String id){
+    public ResponseEntity<?> deleteUserProgressionByUserId(@PathVariable String id){
         service.deleteUserProgressionByUserId(id);
-        return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

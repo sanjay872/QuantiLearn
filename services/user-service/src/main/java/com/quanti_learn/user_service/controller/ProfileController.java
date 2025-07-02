@@ -28,13 +28,13 @@ public class ProfileController {
     }
 
     @PutMapping
-    public ResponseEntity updateProfile(@RequestBody ProfileDto profileDto){
+    public ResponseEntity<?> updateProfile(@RequestBody ProfileDto profileDto){
         service.updateProfile(profileDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping("/{userId}")
-    public ResponseEntity deleteProfile(@PathVariable("userId") String userId){
+    public ResponseEntity<?> deleteProfile(@PathVariable("userId") String userId){
         service.deleteProfile(userId);
         return new ResponseEntity<>(HttpStatus.OK);
     }

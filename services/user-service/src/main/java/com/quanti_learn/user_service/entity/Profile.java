@@ -23,6 +23,9 @@ public class Profile {
     @Column(nullable = false)
     private String userId;
 
+    @Column(nullable = false, unique = true)
+    private String email;
+
     @Column(nullable = false)
     private String firstName;
 

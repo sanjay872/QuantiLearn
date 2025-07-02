@@ -14,6 +14,7 @@ import java.util.Set;
 public class ProfileDto {
     private Long id;
     private String userId;
+    private String email;
     private String firstName;
     private String lastName;
     private String gitHub;

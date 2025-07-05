@@ -7,6 +7,7 @@ import quantiLearn.notification_service.mapper.CategoryMapper;
 import quantiLearn.notification_service.service.CategoryService;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -36,7 +37,7 @@ public class CategoryDtoServiceImpl implements CategoryDtoService {
 
     @Override
     public List<CategoryDto> getAllCategory() {
-        return service.getAllCategory().stream().map(mapper::toDto).toList();
+        return service.getAllCategory().stream().map(mapper::toDto).collect(Collectors.toList());
     }
 
     @Override

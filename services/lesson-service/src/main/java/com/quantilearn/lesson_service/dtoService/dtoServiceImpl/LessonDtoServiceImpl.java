@@ -7,6 +7,7 @@ import com.quantilearn.lesson_service.service.LessonService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class LessonDtoServiceImpl implements LessonDtoService {
@@ -35,7 +36,7 @@ public class LessonDtoServiceImpl implements LessonDtoService {
 
     @Override
     public List<LessonDto> getLessonsByAuthorId(String id) {
-        return service.getLessonsByAuthorId(id).stream().map(mapper::toDto).toList();
+        return service.getLessonsByAuthorId(id).stream().map(mapper::toDto).collect(Collectors.toList());
     }
 
     @Override

@@ -17,13 +17,13 @@
 - Tracks user progression (lesson completion, time spent, scores).
 - Will use Kafka to asynchronously process and broadcast progress updates.
 
+### 🔔 notification-service
+- Sends reminders and alerts via email or push notifications.
+
 ### 📚 lesson-service (in development)
 - Stores and serves educational lessons and metadata.
 - AI Integration: Generates personalized lesson plans based on user progress, performance history, and learning preferences.
 - Can utilize models via Spring AI or integrate external LLM APIs (e.g., OpenAI, Claude, or Hugging Face).
-
-### 🔔 notification-service
-- Sends reminders and alerts via email or push notifications.
 
 ## 🌐 System Architecture
 

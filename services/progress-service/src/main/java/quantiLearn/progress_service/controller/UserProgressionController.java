@@ -26,13 +26,13 @@ public class UserProgressionController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserProgressionDto> getUserProgressionById(@PathVariable Long id){
+    public ResponseEntity<UserProgressionDto> getUserProgressionById(@PathVariable("id") Long id){
         return new ResponseEntity<>(service.getById(id),HttpStatus.OK);
     }
 
 
     @GetMapping("/user/{id}")
-    public ResponseEntity<List<UserProgressionDto>> getUserProgressionByUserId(@PathVariable String id){
+    public ResponseEntity<List<UserProgressionDto>> getUserProgressionByUserId(@PathVariable("id") String id){
         return new ResponseEntity<>(service.getByUserId(id),HttpStatus.OK);
     }
 
@@ -42,13 +42,13 @@ public class UserProgressionController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteUserProgressionById(@PathVariable Long id){
+    public ResponseEntity<?> deleteUserProgressionById(@PathVariable("id") Long id){
         service.deleteUserProgressionById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping("/user/{id}")
-    public ResponseEntity<?> deleteUserProgressionByUserId(@PathVariable String id){
+    public ResponseEntity<?> deleteUserProgressionByUserId(@PathVariable("id") String id){
         service.deleteUserProgressionByUserId(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }

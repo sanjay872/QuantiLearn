@@ -1,4 +1,5 @@
-package com.quantilearn.lesson_service.dto;
+package com.quantilearn.shareddtos.lesson_service;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

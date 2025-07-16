@@ -1,28 +1,45 @@
 package com.quantilearn.lesson_service.service.serviceImpl;
 
 import com.quantilearn.lesson_service.entity.Lesson;
+import com.quantilearn.lesson_service.entity.Skills;
 import com.quantilearn.lesson_service.exception.exceptions.CustomException;
 import com.quantilearn.lesson_service.exception.exceptions.CustomNotFoundException;
 import com.quantilearn.lesson_service.repository.LessonRepository;
+import com.quantilearn.lesson_service.repository.SkillsRepository;
 import com.quantilearn.lesson_service.service.LessonService;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class LessonServiceImpl implements LessonService {
 
     private final LessonRepository repository;
+    private final SkillsRepository skillsRepository;
 
     public LessonServiceImpl(
-            LessonRepository repository
+            LessonRepository repository,
+            SkillsRepository skillsRepository
     ){
         this.repository=repository;
+        this.skillsRepository=skillsRepository;
     }
 
     @Override
     public Lesson createLesson(Lesson lesson) {
+        Set<Skills> givenSkills=lesson.getSkills();
+
+        Set<Skills> skillsFromDb=new HashSet<>();
+
+        for(Skills skill:givenSkills){
+            Optional<Skills> foundSkill=skillsRepository.findById(skill.getId());
+            foundSkill.ifPresent(skillsFromDb::add);
+        }
+        lesson.setSkills(skillsFromDb);
+
         return repository.save(lesson);
     }
 

@@ -22,7 +22,7 @@ public class UserProgression {
     private String userId;
 
     @Column(nullable = false)
-    private String lessonId;
+    private Long lessonId;
 
     @CreationTimestamp // added local date and time automatically on persist
     @Column(updatable = false) // can't be updated

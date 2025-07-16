@@ -9,6 +9,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -25,6 +26,19 @@ public class Lesson {
 
     @Column(nullable = false)
     private String authorId;
+
+    @ManyToMany(
+            cascade = {
+                    CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH
+            }, // no cascade delete
+            fetch = FetchType.EAGER // for each user, roles also will be fetched
+    )
+    @JoinTable(
+            name = "lesson_skills", // table name
+            joinColumns = @JoinColumn(name = "lesson_id"), // current table
+            inverseJoinColumns = @JoinColumn(name = "skill_id") // other table
+    )
+    private Set<Skills> skills;
 
     private String description;
 

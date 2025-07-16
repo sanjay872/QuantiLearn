@@ -26,12 +26,12 @@ public class LessonController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<LessonDto> getLessonById(@PathVariable Long id){
+    public ResponseEntity<LessonDto> getLessonById(@PathVariable("id") Long id){
         return new ResponseEntity<>(service.getLessonById(id),HttpStatus.OK);
     }
 
     @GetMapping("/author/{id}")
-    public ResponseEntity<List<LessonDto>> getAllLessonsByAuthorId(@PathVariable String id){
+    public ResponseEntity<List<LessonDto>> getAllLessonsByAuthorId(@PathVariable("id") String id){
         return new ResponseEntity<>(service.getLessonsByAuthorId(id),HttpStatus.OK);
     }
 
@@ -41,7 +41,7 @@ public class LessonController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteLesson(@PathVariable Long id){
+    public ResponseEntity<?> deleteLesson(@PathVariable("id") Long id){
         service.deleteLesson(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }

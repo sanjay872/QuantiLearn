@@ -13,7 +13,7 @@ public class UserProgressionDto {
 
     private Long id;
     private String userId;
-    private String lessonId;
+    private Long lessonId;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private StatusDto status;

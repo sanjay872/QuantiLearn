@@ -1,4 +1,4 @@
-package com.quantilearn.eventmodels;
+package com.quantilearn.lesson_service.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,8 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProfileCreatedDto{
-    private String email;
-    private String firstName;
-    private String lastName;
+public class SkillsDto {
+    private Long id;
+    private String name;
 }

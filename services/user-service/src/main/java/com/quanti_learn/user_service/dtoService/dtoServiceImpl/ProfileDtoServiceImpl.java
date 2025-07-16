@@ -28,6 +28,7 @@ public class ProfileDtoServiceImpl implements ProfileDtoService {
 
     @Override
     public ProfileDto createProfile(ProfileDto profile) {
+        profile.setId(null);
         ProfileDto res= mapper.toDto(service.createProfile(mapper.fromDto(profile)));
         ProfileCreatedDto profileCreatedDto= ProfileCreatedDto.builder()
                 .email(profile.getEmail())

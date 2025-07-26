@@ -1,11 +1,15 @@
 package com.quantilearn.lesson_service.dtoService.dtoServiceImpl;
 
+import com.quantilearn.lesson_service.dto.AILessonContentDto;
+import com.quantilearn.lesson_service.dto.AILessonResponse;
+import com.quantilearn.lesson_service.dto.LessonContentDto;
 import com.quantilearn.lesson_service.dto.LessonDto;
 import com.quantilearn.lesson_service.dtoService.LessonDtoService;
 import com.quantilearn.lesson_service.mapper.LessonMapper;
 import com.quantilearn.lesson_service.service.LessonService;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 

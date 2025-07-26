@@ -1,5 +1,7 @@
 package com.quantilearn.lesson_service.controller;
 
+import com.quantilearn.lesson_service.dto.AILessonContentRequestDto;
+import com.quantilearn.lesson_service.dto.AILessonResponse;
 import com.quantilearn.lesson_service.dto.LessonContentDto;
 import com.quantilearn.lesson_service.dtoService.LessonContentDtoService;
 import org.springframework.http.HttpStatus;
@@ -43,6 +45,17 @@ public class LessonContentController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteLessonContent(@PathVariable Long id){
         service.deleteLessonContent(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/ai/lesson")
+    public ResponseEntity<AILessonResponse> getAILessonResponse(@RequestBody AILessonContentRequestDto lessonContentRequestDto){
+        return new ResponseEntity<>(service.generateLessonContentWithAI(lessonContentRequestDto),HttpStatus.OK);
+    }
+
+    @PostMapping("/ai/lesson/{id}/save")
+    public ResponseEntity<?> saveAILesson(@PathVariable("id") Long id,@RequestBody AILessonResponse aiLessonResponse){
+        service.saveAILessonContent(id,aiLessonResponse);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

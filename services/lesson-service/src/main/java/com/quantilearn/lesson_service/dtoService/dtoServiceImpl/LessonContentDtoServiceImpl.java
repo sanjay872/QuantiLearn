@@ -1,8 +1,9 @@
 package com.quantilearn.lesson_service.dtoService.dtoServiceImpl;
 
-import com.quantilearn.lesson_service.dto.LessonContentDto;
+import com.quantilearn.lesson_service.dto.*;
 import com.quantilearn.lesson_service.dtoService.LessonContentDtoService;
 import com.quantilearn.lesson_service.mapper.LessonContentMapper;
+import com.quantilearn.lesson_service.service.AIService;
 import com.quantilearn.lesson_service.service.LessonContentService;
 import org.springframework.stereotype.Service;
 
@@ -14,13 +15,16 @@ public class LessonContentDtoServiceImpl implements LessonContentDtoService {
 
     private final LessonContentService service;
     private final LessonContentMapper mapper;
+    private final AIService aiService;
 
     public LessonContentDtoServiceImpl(
             LessonContentService service,
-            LessonContentMapper mapper
+            LessonContentMapper mapper,
+            AIService aiService
     ){
         this.service=service;
         this.mapper=mapper;
+        this.aiService=aiService;
     }
 
     @Override
@@ -47,5 +51,25 @@ public class LessonContentDtoServiceImpl implements LessonContentDtoService {
     @Override
     public void deleteLessonContent(Long id) {
         service.deleteLessonContent(id);
+    }
+
+    @Override
+    public AILessonResponse generateLessonContentWithAI(AILessonContentRequestDto aiLessonContentRequestDto) {
+        return aiService.getLessonContent(aiLessonContentRequestDto);
+    }
+
+    @Override
+    public void saveAILessonContent(Long id, AILessonResponse aiLessonResponse) {
+        List<AILessonContentDto> aiLessonContentDtoList=aiLessonResponse.lessonContents();
+
+        aiLessonContentDtoList.forEach((aiLessonContentDto -> {
+            LessonContentDto lessonContentDto=LessonContentDto.builder()
+                    .lessonId(id)
+                    .title(aiLessonContentDto.getTitle())
+                    .description(aiLessonContentDto.getDescription())
+                    .orderNumber(aiLessonContentDto.getOrderNumber())
+                    .build();
+            createLessonContent(lessonContentDto);
+        }));
     }
 }

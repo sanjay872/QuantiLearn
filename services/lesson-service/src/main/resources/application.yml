@@ -25,3 +25,12 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+  ai: # ai config
+    chat:
+      client:
+        enabled: false
+    openai:
+      api-key: ${OPENAI_KEY}
+      chat:
+        options:
+          model: gpt-4o

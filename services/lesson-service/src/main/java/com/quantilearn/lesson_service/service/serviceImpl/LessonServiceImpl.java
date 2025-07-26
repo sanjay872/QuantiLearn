@@ -60,6 +60,7 @@ public class LessonServiceImpl implements LessonService {
     @Override
     public Lesson updateLesson(Lesson lesson) {
         Optional<Lesson> lessonOptional=repository.findById(lesson.getId());
+        System.out.println(lesson.toString());
         if(lessonOptional.isPresent()){
             return repository.save(lesson);
         }

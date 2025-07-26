@@ -1,5 +1,6 @@
 package com.quantilearn.lesson_service.controller;
 
+import com.quantilearn.lesson_service.dto.AILessonResponse;
 import com.quantilearn.lesson_service.dto.LessonDto;
 import com.quantilearn.lesson_service.dtoService.LessonDtoService;
 import org.springframework.http.HttpStatus;

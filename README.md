@@ -20,7 +20,7 @@
 ### 🔔 notification-service
 - Sends reminders and alerts via email or push notifications.
 
-### 📚 lesson-service (in development)
+### 📚 lesson-service
 - Stores and serves educational lessons and metadata.
 - AI Integration: Generates personalized lesson plans based on user progress, performance history, and learning preferences.
 - Can utilize models via Spring AI or integrate external LLM APIs (e.g., OpenAI, Claude, or Hugging Face).
@@ -30,7 +30,7 @@
 ```mermaid
 graph LR
   subgraph External
-    UI[Angular Frontend]
+    UI[Frontend]
     User[End Users]
   end
 
